@@ -19,7 +19,7 @@
   - ``` nmap -sC -sV -O -A -T2/3 IP-TARGET -v ```
   - SAFE SCRIPTS, SERVICE DISCOVERY, OS DETECTION, SLOWER SCAN (TO BE SAFE), VERBOSE
   - ``` nmap -sU -T3 Ip-target -v ```
-  -```--source-port 100 ``` just to try evade, change to well-known port number 
+  - ```--source-port 100 ``` just to try evade, change to well-known port number 
 - Port 80 / 443 open
   - ``` nikto -host ip-target -evasion 8 ``` (Many others check -H)
   - ``` dirb http://Ip-target -r ``` **Different wordlist perhaps**
