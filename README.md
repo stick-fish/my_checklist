@@ -103,8 +103,8 @@
   - I prefer SimpleHTTPServer to see active transfers
   -  ```python -m SimpleHTTPServer 443``` 
 
-usefull links
-https://netsec.ws/?p=331	- msfvenom,shells,tips
-https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
+**usefull links**
+- https://netsec.ws/?p=331	- msfvenom,shells,tips
+- https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
 
 
