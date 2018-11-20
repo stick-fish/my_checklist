@@ -55,11 +55,13 @@
   - Banner grabbing
   -```ftp root@ip-target```
   - Try anonymous login
+  - PUT / DELETE 
   - Check for version numbers
   - use searchsploit / google for known vulns
 
+<H2>Linux</H2>
 
-- Low priv
+- Low priv 
   - find writeable directories if /tmp or /dev/shm not available
     - ```find / -type d \( -perm -g+w -or -perm -o+w \) -exec ls -adl {} \;```
   - netcat 
@@ -87,6 +89,12 @@
     - Perl,python etc
     - Nc,ncat,wget,curl
 
+<H2>Windows</H2>
+
+- Priv esc
+ - Coming soon...
+
+<H2>Getting In</H2>
 - Remote file inclusion (https://sushant747.gitbooks.io/total-oscp-guide/remote_file_inclusion.html)
     - Similar to local file inclusion while not hosted on the target
     - Rarer than LFI due to php.ini needs to configured for it 
