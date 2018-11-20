@@ -55,6 +55,7 @@
   - Banner grabbing
   -```ftp root@ip-target```
   - Try anonymous login
+  - Set to BINARY for exe
   - PUT / DELETE 
   - Check for version numbers
   - use searchsploit / google for known vulns
