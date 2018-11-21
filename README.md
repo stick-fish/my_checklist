@@ -93,7 +93,9 @@
 <H2>Windows</H2>
 
 - Priv esc
- - Coming soon...
+ - Still busy gathering info... Have this so far:
+ - cacls C:\WINDOWS\system32\ - This displays permissions on folder & same for file eg: cacls test.txt
+ - icacls for newer Windows versions (I think Vista upwards)
 
 <H2>Getting In</H2>
 - Remote file inclusion (https://sushant747.gitbooks.io/total-oscp-guide/remote_file_inclusion.html)
@@ -135,5 +137,6 @@
 - https://netsec.ws/?p=331	- msfvenom,shells,tips
 - https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
 - https://sushant747.gitbooks.io/total-oscp-guide/connections.html
+- http://www.fuzzysecurity.com/tutorials/16.html - Windows Priveledge Escalation tips
 
 
