@@ -20,7 +20,35 @@
 	  - DEFAULT SCRIPTS, SERVICE DISCOVERY, OS DETECTION, SLOWER SCAN (TO BE SAFE), VERBOSE
 	- ``` nmap -sU -T3 Ip-target -v ```
 	- ```--source-port 100``` just to try evade, change to well-known port number
-	
+
+- Port 21
+  - Banner grabbing
+	  -```ftp root@ip-target```
+	- Try anonymous login
+	- Set to **BINARY** for exe
+	- PUT / DELETE
+	- Check for version numbers
+	- use searchsploit / google for known vulns
+
+- Port 22
+  - Banner grabbing / check username
+	  - ```ssh root@192.192.192.192```
+
+- Ports 139, 445
+  - nmap enumerate if possible with scripts if nothing came up before. perhaps change scan speed to slower one
+  - enum4linux
+  - smbclient
+    - ```smbclient \\\\ip\\share```
+  - try to connect to them to see if they are truly alive
+  - Banner grabbing even if booted
+  - ```nbtscan [ip-range]```
+    - (https://highon.coffee/blog/nbtscan-cheat-sheet/)
+
+- Port 161 (snmp)
+  - ```snmpwalk -c public -v 1 $IP 1.3.6.1.4.1.77.1.2.25```
+  - ```snmp-check $IP```
+  - ```onesixtyone $IP```
+
 - Port 80 / 443 open
   - ``` nikto -host ip-target -evasion 8``` (Many others check -H)
   - ``` dirb http://Ip-target -r``` **Different wordlist perhaps**
@@ -38,32 +66,9 @@
 	  - Login forms
 		  - Versions/names/brands etc
 		  - Basic sql injection
-		  -``` ‘or 1=1```
-		  -```union```
-
-- Ports 139, 445
-  - nmap enumerate if possible with scripts if nothing came up before. perhaps change scan speed to slower one
-	- enum4linux
-	- smbclient
-	  -```smbclient \\\\ip\\share```
-		- try to connect to them to see if they are truly alive
-		- Banner grabbing even if booted
-	- ```nbtscan [ip-range]```
-	  - (https://highon.coffee/blog/nbtscan-cheat-sheet/)
+        - ``` ‘or 1=1```
+        - ```union```
    
-- Port 22
-  - Banner grabbing
-	  -```ssh root@192.192.192.192```
-
-- Port 21
-  - Banner grabbing
-	  -```ftp root@ip-target```
-	- Try anonymous login
-	- Set to **BINARY** for exe
-	- PUT / DELETE
-	- Check for version numbers
-	- use searchsploit / google for known vulns
-
 <H2>Linux</H2>
 
 - Low priv 
