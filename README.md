@@ -52,7 +52,7 @@
 - Port 80 / 443 open
   - ``` nikto -host ip-target -evasion 8``` (Many others check -H)
   - ``` dirb http://Ip-target -r``` **Different wordlist perhaps**
-  - Non-recursive to save time, then inspect further if necessary
+    - Non-recursive to save time, then inspect further if necessary
   - Try nmap ``` -–script=http-enum.nse``` (others available)
   - Check site in browser (http/https)
   - Resolve host name if necessary (etc/hosts)
@@ -115,10 +115,21 @@
 
 <H2>Windows</H2>
 
+  - Usefull commands
+    - ```dir /a```
+    - ```type```
+    - ```ipconfig -all```
+    - ```echo %HOSTNAME% && %USERNAME%```
+    - ```systeminfo```
+    - ```net users```
+    - ```dir /s *pass* == *cred* == *vnc* == *.config*```
+    - ```net start upnphost``` (or other service)
+    - ```
+
  - Priv esc
  - Still busy gathering info... Have this so far:
    - cacls C:\WINDOWS\system32\ - This displays permissions on folder & same for file eg: cacls test.txt
-	 - icacls for newer Windows versions (I think Vista upwards)
+   - icacls for newer Windows versions (I think Vista upwards)
 
 <H2>Getting In</H2>
 
