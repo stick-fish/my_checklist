@@ -50,6 +50,17 @@
   - ```onesixtyone $IP```
 
 - Port 80 / 443 open
+  - iis info
+	  - 1.0	Windows NT Server 3.51
+	  - 2.0	Windows NT Server 4.0
+	  - 3.0	NT Server 4.0 Service Pack 3 (Internet Information Server 2.0 is automatically upgraded to Internet Information Server 3.0 during the install of SP3).
+	  - 4.0	Windows NT Server 4.0 SP3 and Microsoft Internet Explorer 4.01
+	  - 5.0	Windows 2000
+	  - 5.1	Windows XP Professional
+	  - 6.0	WIndows Server 2003
+	  - 7.0	Windows Vista and WIndows Server 2008
+	  - 7.5	Windows 7 and Windows Server 2008 R2
+	  - 8.0	Windows 8 and Windows Server 2012
   - ```nikto -host ip-target -evasion 8``` (Many others check -H)
   - ```nikto -host 10.11.1.227 -evasion 7``` (Change URL case)
   - ```dirb http://Ip-target -r``` **Different wordlist perhaps**
@@ -208,6 +219,8 @@
 - http://www.fuzzysecurity.com/tutorials/16.html (Windows Priveledge Escalation tips)
 - https://payatu.com/guide-linux-privilege-escalation/ (Linux Privesc)
 - https://www.owasp.org/index.php/Path_Traversal  (Topics about everything)
+- https://crackstation.net/
+- https://github.com/Re4son/Churrasco
 
 **Awesome books**
 - RTFM (Red Team Field Manual)
