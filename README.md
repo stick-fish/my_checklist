@@ -21,6 +21,7 @@
   - ```nmap --source-port 67 --spoof-mac Cisco --script safe -p80,443 -T3 Target_IP -vv```
   - ```nmap -sU -T3 Ip-target -v ``` (Can take forever)
   - ```--source-port 53/67``` (DNS or DHCP)
+  - ```nmap --script safe Target -vv```
 
 - Port 21
   - Banner grabbing
@@ -49,9 +50,9 @@
   - ```onesixtyone $IP```
 
 - Port 80 / 443 open
-  - ``` nikto -host ip-target -evasion 8``` (Many others check -H)
+  - ```nikto -host ip-target -evasion 8``` (Many others check -H)
   - ```nikto -host 10.11.1.227 -evasion 7``` (Change URL case)
-  - ``` dirb http://Ip-target -r``` **Different wordlist perhaps**
+  - ```dirb http://Ip-target -r``` **Different wordlist perhaps**
         - Non-recursive to save time, then inspect further if necessary
   - Try nmap ``` -–script=http-enum.nse``` (others available)
   	- ```nmap -T4 --script safe -p80,443 Target_IP -vv```
@@ -72,6 +73,8 @@
 - Port 3389
   - ```rdesktop -z Target_IP:PORT```
   - Screen shot login screen
+  - ```ncrack -vv --user admin -P password-file.txt rdp://192.168.1.1```
+  - ```rdp-enum-encryption.nse rdp-vuln-ms12-020.nse```
    
 <H2>Linux</H2>
 
