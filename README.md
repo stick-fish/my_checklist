@@ -16,6 +16,11 @@
   - Responses from cli connect attempts
   - Filtering
 	  - ``` ip-addr==192.192.192.192 ```
+- Encoding
+  - Unicode A ```%u4141```
+  - Unicode NOPs ```%u9090```
+  	- js ```unescape("%u4141")```
+
 - NMAP
   - ```nmap -sC -sV -O -A -T2/3 IP-TARGET -v ``` (Overboard scan)
   - ```nmap --source-port 67 --spoof-mac Cisco --script safe -p80,443 -T3 Target_IP -vv```
