@@ -145,6 +145,7 @@
   - Usefull commands
     - ```ver```
     - ```dir /a```
+    - ```netstat -ano | findstr ":3128"```
     - ```type```
     - ```ipconfig -all```
     - ```echo %HOSTNAME% && %USERNAME%```
