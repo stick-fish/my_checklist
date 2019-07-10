@@ -28,6 +28,7 @@
     - Banner grab
     - smbclient
     - nbtstat
+    - enum4linux
     - browse shares if possible
     - mount if possible
   - Others
