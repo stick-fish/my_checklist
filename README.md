@@ -387,6 +387,7 @@
 
 
 **usefull links** (Most of the notes above come from these Masters of the Universe)
+- https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/
 - https://netsec.ws/?p=331 (msfvenom,shells,tips)
 - https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
 - https://sushant747.gitbooks.io/total-oscp-guide/connections.html
