@@ -406,6 +406,11 @@
 - RTFM (Red Team Field Manual)
 - Hacker Playbook (All of them)
 
+**Alias shortcuts**
+- alias sub="/opt/sublime_text/sublime_text"
+- alias pyserver="python -m SimpleHTTPServer 81"
+- alias pyftp="python -m pyftpdlib -p21"
+- alias nfs="/opt/nfs/nfs"
 
 
 
